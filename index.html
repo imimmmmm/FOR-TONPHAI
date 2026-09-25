@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Pixel Stock System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --panel-bg: #ffe600;
+            --border-color: #000000;
+            --btn-in: #00e676;
+            --btn-out: #ff5252;
+            --shadow: 4px 4px 0px #000000;
+            --shadow-sm: 2px 2px 0px #000000;
+        }
+
+        body {
+            background-image: url('https://wallpaperaccess.com/full/7943794.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .arcade-cabinet {
+            background: var(--panel-bg);
+            border: 4px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 520px;
+            padding: 24px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            background: #fff;
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            padding: 10px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            background: #ffffff;
+            font-family: 'Prompt', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            box-sizing: border-box;
+            box-shadow: var(--shadow-sm);
+            outline: none;
+        }
+
+        .btn-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .pixel-btn {
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            text-transform: uppercase;
+        }
+
+        .pixel-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #000000;
+        }
+
+        .btn-in-action { background-color: var(--btn-in); }
+        .btn-out-action { background-color: var(--btn-out); color: #fff; }
+
+        #status-message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            min-height: 24px;
+        }
+
+        .inventory-box {
+            background: #ffffff;
+            border: 4px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 520px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .inventory-box h3 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 2px solid var(--border-color);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ffeb3b;
+        }
+
+        .music-control {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ควบคุมเพลงประกอบ (ไฟล์ MP3 แบบเดิมที่คุณชอบ) -->
+    <div class="music-control">
+        <button class="pixel-btn" style="background:#fff; font-size:12px; padding:8px 12px;" onclick="toggleMusic()">🎵 เปิด/ปิด เพลงประกอบ</button>
+        <audio id="bgm" loop>
+            <source src="https://vgmsite.com/soundtracks/super-mario-bros/yqrmpaoc/01%20Main%20Theme%20Overworld.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div class="arcade-cabinet">
+        <div class="header-title">
+            <h1>สต็อกเทปของที่รักอ้วน</h1>
+        </div>
+
+        <form id="stockForm">
+            <div class="form-group">
+                <label for="staff">ใครทำเนี่ยย:</label>
+                <input type="text" id="staff" required placeholder="ระบุชื่อของคุณ...">
+            </div>
+
+            <div class="form-group">
+                <label for="itemName">อันหนายๆๆ:</label>
+                <select id="itemName" required>
+                    <option value="" disabled selected>-- เลือกเลยค้าบ --</option>
+                    <option value="เทปกาว แล็คซีน สีดำ">1. เทปกาว แล็คซีน สีดำ</option>
+                    <option value="เทปกาว แล็คซีน สีเทา">2. เทปกาว แล็คซีน สีเทา</option>
+                    <option value="เทปกาว แล็คซีน สีขาว">3. เทปกาว แล็คซีน สีขาว</option>
+                    <option value="เทปกาว แล็คซีน สีน้ำตาล">4. เทปกาว แล็คซีน สีน้ำตาล</option>
+                    <option value="เทปกระดาษ หนังไก่ ขนาดใหญ่">5. เทปกระดาษ หนังไก่ ขนาดใหญ่</option>
+                    <option value="เทปกระดาษ หนังไก่ ขนาดเล็ก">6. เทปกระดาษ หนังไก่ ขนาดเล็ก</option>
+                    <option value="เทปเหลืองดำ">7. เทปเหลืองดำ</option>
+                    <option value="เทปพันสายไฟ">8. เทปพันสายไฟ</option>
+                    <option value="เทปมาร์ก สีเหลือง">9. เทปมาร์ก สีเหลือง</option>
+                    <option value="เทปมาร์กสีแดง">10. เทปมาร์กสีแดง</option>
+                    <option value="เทปมาร์กสีน้ำเงิน">11. เทปมาร์กสีน้ำเงิน</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="jobName">งานไหนเอ่ยย:</label>
+                <input type="text" id="jobName" required placeholder="ระบุชื่องาน...">
+            </div>
+
+            <div class="form-group">
+                <label for="qty">กี่อันนน:</label>
+                <input type="number" id="qty" min="1" value="1" required>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="pixel-btn btn-in-action" onclick="submitStock('IN')">ซื้อมาใหม่ๆๆ</button>
+                <button type="button" class="pixel-btn btn-out-action" onclick="submitStock('OUT')">เอาออกไปงานนน</button>
+            </div>
+        </form>
+
+        <div id="status-message"></div>
+    </div>
+
+    <!-- ส่วนแสดงสต็อกคงเหลือด้านล่าง -->
+    <div class="inventory-box">
+        <div class="inventory-header">
+            <h3>ของที่เหลือในสต้อกงับ</h3>
+            <button class="pixel-btn" style="font-size: 11px; padding: 4px 8px; background: #00e676;" onclick="loadInventory()">รีเฟรช</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>มีไรบ้างง</th>
+                    <th style="width: 80px; text-align: center;">เหลือเท่านี้นะ</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+                <tr><td colspan="2" style="text-align: center;">กำลังโหลดรอแปปนะอ้วนน...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz_S7EyUGy9wNn4QXvUN6a7SFJLry8pboxb2dHMfKp9RrC6hxlCijTxjXmTUbjCeqfZ/exec";
+
+        // ควบคุมเพลง MP3
+        function toggleMusic() {
+            const audio = document.getElementById('bgm');
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        // โหลดข้อมูลสต็อก
+        async function loadInventory() {
+            const tbody = document.getElementById('inventoryTableBody');
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const data = await response.json();
+                tbody.innerHTML = '';
+                
+                data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${item.name}</td><td style="text-align: center; font-weight: 800;">${item.qty}</td>`;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: red;">ไม่สามารถโหลดข้อมูลได้</td></tr>`;
+            }
+        }
+
+        // ส่งข้อมูลบันทึก
+        async function submitStock(action) {
+            const staff = document.getElementById('staff').value;
+            const itemName = document.getElementById('itemName').value;
+            const jobName = document.getElementById('jobName').value;
+            const qty = document.getElementById('qty').value;
+            const statusDiv = document.getElementById('status-message');
+
+            if (!staff || !itemName || !jobName || !qty) {
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "⚠️ กรุณากรอกข้อมูลให้ครบถ้วน!";
+                return;
+            }
+
+            statusDiv.style.color = "blue";
+            statusDiv.textContent = "⏳ กำลังบันทึกข้อมูล...";
+
+            const payload = {
+                action: action,
+                staff: staff + ' (งาน: ' + jobName + ')',
+                itemName: itemName,
+                qty: parseInt(qty)
+            };
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                statusDiv.style.color = "green";
+                statusDiv.textContent = "บันทึกข้อมูลสำเร็จเรียบร้อย!";
+                
+                document.getElementById('jobName').value = '';
+                document.getElementById('qty').value = '1';
+                
+                setTimeout(loadInventory, 1500);
+
+            } catch (error) {
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "❌ เกิดข้อผิดพลาด: " + error.message;
+            }
+        }
+
+        // โหลดข้อมูลทันทีเมื่อเปิดเว็บ
+        window.onload = loadInventory;
+    </script>
+</body>
+</html>
