@@ -81,9 +81,27 @@
             font-family: 'Prompt', sans-serif;
             font-size: 15px;
             font-weight: 600;
+            color: #000000 !important;
             box-sizing: border-box;
             box-shadow: var(--shadow-sm);
             outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* บังคับสีตัวหนังสือข้างใน select ให้เป็นสีดำสนิท */
+        select option {
+            color: #000000;
+            background: #ffffff;
+        }
+
+        /* ลูกศร dropdown สำหรับ select */
+        select {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+            padding-right: 30px;
         }
 
         .multi-item-container {
@@ -199,12 +217,6 @@
         * {
             -webkit-tap-highlight-color: transparent;
         }
-
-        /* ลบสไตล์พื้นหลังหรือขอบที่ iOS ชอบเติมเองใน select และ input */
-        select, input, button {
-            -webkit-appearance: none;
-            appearance: none;
-        }
     </style>
 </head>
 <body>
@@ -264,7 +276,6 @@
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxh5d3kPOWGU8LAOIyRavZi4KXqd1XH8CgD7xEOypxwDbn6C5J3qEM1zpEGbSgiVLCy/exec";
 
         const itemOptions = [
-              
             "แล็คซีนสีเงิน",
             "แล็คซีนสีดำ",
             "แล็คซีนสีน้ำตาลเข้ม",
@@ -284,7 +295,6 @@
             "GW 300 HD",
             "GW 370 HD",
             "GW 250 ST"
-           
         ];
 
         // เพิ่มแถวเลือกสินค้า
@@ -298,9 +308,15 @@
                 optionsHtml += `<option value="${item}">${item}</option>`;
             });
 
+            // สร้างตัวเลือกจำนวน 1 ถึง 100 สำหรับเลื่อนเลือกแบบนาฬิกาปลุกไอโฟน
+            let qtyOptionsHtml = ``;
+            for (let i = 1; i <= 100; i++) {
+                qtyOptionsHtml += `<option value="${i}">${i}</option>`;
+            }
+
             row.innerHTML = `
                 <select class="item-select" required>${optionsHtml}</select>
-                <input type="number" class="item-qty" min="1" value="1" required>
+                <select class="item-qty" required>${qtyOptionsHtml}</select>
                 <button type="button" class="pixel-btn-sm" onclick="removeItemRow(this)">X</button>
             `;
             container.appendChild(row);
@@ -376,7 +392,7 @@
             const payload = {
                 action: action,
                 staff: staff + ' (งาน: ' + jobName + ')',
-                items: items // ส่งไปเป็นอาเรย์หลายรายการ
+                items: items
             };
 
             try {
@@ -391,7 +407,6 @@
                 statusDiv.textContent = "บันทึกสำเร็จเรียบร้อยแล้วค้าบบ!";
                 
                 document.getElementById('jobName').value = '';
-                // รีเซ็ตเหลือแถวเดียว
                 document.getElementById('itemListContainer').innerHTML = '';
                 addItemRow();
                 
@@ -403,7 +418,6 @@
             }
         }
 
-        // โหลดรายการแรกและโหลดสต็อกทันทีเมื่อเปิดเว็บ
         window.onload = function() {
             addItemRow();
             loadInventory();
