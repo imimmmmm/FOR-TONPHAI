@@ -288,12 +288,12 @@
 
             row.innerHTML = `
                 <select class="item-select" required>${optionsHtml}</select>
-                <input type="number" class="item-qty" min="1" value="1" required>
+                <input type="number" class="item-qty" min="1" value="1" required style="text-align: center;" list="qty-list">
                 <button type="button" class="pixel-btn-sm" onclick="removeItemRow(this)">X</button>
             `;
             container.appendChild(row);
         }
-
+      
         // ลบแถวสินค้า
         function removeItemRow(btn) {
             const rows = document.querySelectorAll('.item-row');
@@ -396,6 +396,20 @@
             addItemRow();
             loadInventory();
         };
+            <!-- Datalist สำหรับช่วยแนะนำตัวเลข 1-10 เวลาจิ้ม และพิมพ์เองได้อิสระ -->
+            <datalist id="qty-list">
+            <option value="1">
+            <option value="2">
+            <option value="3">
+            <option value="4">
+            <option value="5">
+            <option value="6">
+            <option value="7">
+            <option value="8">
+            <option value="9">
+            <option value="10">
+            </datalist>
+        
     </script>
 </body>
 </html>
