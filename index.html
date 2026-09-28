@@ -81,25 +81,9 @@
             font-family: 'Prompt', sans-serif;
             font-size: 15px;
             font-weight: 600;
-            color: #000000 !important;
             box-sizing: border-box;
             box-shadow: var(--shadow-sm);
             outline: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        select option {
-            color: #000000;
-            background: #ffffff;
-        }
-
-        select {
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 12px;
-            padding-right: 30px;
         }
 
         .multi-item-container {
@@ -160,9 +144,8 @@
             box-shadow: 1px 1px 0px #000000;
         }
 
-        /* ปรับปุ่มซื้อมาใหม่ๆๆ ให้ตัวหนังสือเป็นสีดำชัดเจน */
-        .btn-in-action { background-color: var(--btn-in); color: #000000; }
-        .btn-out-action { background-color: var(--btn-out); color: #ffffff; }
+        .btn-in-action { background-color: var(--btn-in); }
+        .btn-out-action { background-color: var(--btn-out); color: #fff; }
 
         #status-message {
             margin-top: 15px;
@@ -211,10 +194,6 @@
         th {
             background-color: #ffeb3b;
         }
-
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
     </style>
 </head>
 <body>
@@ -237,8 +216,10 @@
 
             <div class="form-group">
                 <label>เลือกรายการของ:</label>
-                <div class="multi-item-container" id="itemListContainer"></div>
-                <button type="button" class="pixel-btn" style="width: 100%; background: #fff; color: #000; font-size: 14px; padding: 12px; box-shadow: var(--shadow-sm);" onclick="addItemRow()">➕ เพิ่มรายการของอีก</button>
+                <div class="multi-item-container" id="itemListContainer">
+                    <!-- แถวรายการสินค้าจะถูกเพิ่มด้วย JavaScript -->
+                </div>
+                <button type="button" class="pixel-btn" style="width: 100%; background: #fff; font-size: 14px; padding: 10px;" onclick="addItemRow()">➕ เพิ่มรายการของอีก</button>
             </div>
 
             <div class="btn-container">
@@ -253,7 +234,7 @@
     <div class="inventory-box">
         <div class="inventory-header">
             <h3>ของที่เหลือในสต้อกงับ</h3>
-            <button class="pixel-btn" style="font-size: 11px; padding: 6px 12px; background: #00e676; color: #000000; box-shadow: var(--shadow-sm);" onclick="loadInventory()">🔄 รีเฟรช</button>
+            <button class="pixel-btn" style="font-size: 11px; padding: 4px 8px; background: #00e676;" onclick="loadInventory()">รีเฟรช</button>
         </div>
         <table>
             <thead>
@@ -272,12 +253,29 @@
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxh5d3kPOWGU8LAOIyRavZi4KXqd1XH8CgD7xEOypxwDbn6C5J3qEM1zpEGbSgiVLCy/exec";
 
         const itemOptions = [
-            "แล็คซีนสีเงิน", "แล็คซีนสีดำ", "แล็คซีนสีน้ำตาลเข้ม", "แล็คซีนสีน้ำตาลอ่อน", "แล็คซีนสีขาว",
-            "เทปกาวนิตโต้ 2 นิ้ว", "เทปกาวนิตโต้ 1 นิ้ว", "เทปมาร์คสีเหลือง", "เทปมาร์คสีน้ำเงิน",
-            "เทปมาร์คสีแดง", "เทปมาร์คสีดำ", "เทปเหลือง - ดำ", "เทปขาว - แดง", "สก็อตเทป",
-            "ที่กั้นเหลือง - ดำ", "เทปพันสายไฟ", "GW 300 HD", "GW 370 HD", "GW 250 ST"
+            
+            "แล็คซีนสีเงิน",
+            "แล็คซีนสีดำ",
+            "แล็คซีนสีน้ำตาลเข้ม",
+            "แล็คซีนสีน้ำตาลอ่อน",
+            "แล็คซีนสีขาว",
+            "เทปกาวนิตโต้ 2 นิ้ว",
+            "เทปกาวนิตโต้ 1 นิ้ว",
+            "เทปมาร์คสีเหลือง",
+            "เทปมาร์คสีน้ำเงิน",
+            "เทปมาร์คสีแดง",
+            "เทปมาร์คสีดำ",
+            "เทปเหลือง - ดำ",
+            "เทปขาว - แดง",
+            "สก็อตเทป",
+            "ที่กั้นเหลือง - ดำ",
+            "เทปพันสายไฟ",
+            "GW 300 HD",
+            "GW 370 HD",
+            "GW 250 ST"
         ];
 
+        // เพิ่มแถวเลือกสินค้า
         function addItemRow() {
             const container = document.getElementById('itemListContainer');
             const row = document.createElement('div');
@@ -288,28 +286,25 @@
                 optionsHtml += `<option value="${item}">${item}</option>`;
             });
 
-            let qtyOptionsHtml = ``;
-            for (let i = 1; i <= 100; i++) {
-                qtyOptionsHtml += `<option value="${i}">${i}</option>`;
-            }
-
             row.innerHTML = `
                 <select class="item-select" required>${optionsHtml}</select>
-                <select class="item-qty" required>${qtyOptionsHtml}</select>
+                <input type="number" class="item-qty" min="1" value="1" required>
                 <button type="button" class="pixel-btn-sm" onclick="removeItemRow(this)">X</button>
             `;
             container.appendChild(row);
         }
 
+        // ลบแถวสินค้า
         function removeItemRow(btn) {
             const rows = document.querySelectorAll('.item-row');
             if (rows.length > 1) {
                 btn.parentElement.remove();
             } else {
-                alert("ต้องมีอย่างน้อย 1 รายการน้าา!");
+                alert("ต้องมีอย่างน้อย 1 รายการนะอ้วงๆ");
             }
         }
 
+        // โหลดข้อมูลสต็อก
         async function loadInventory() {
             const tbody = document.getElementById('inventoryTableBody');
             try {
@@ -332,6 +327,7 @@
             }
         }
 
+        // ส่งข้อมูลบันทึกแบบหลายรายการ
         async function submitStock(action) {
             const staff = document.getElementById('staff').value;
             const jobName = document.getElementById('jobName').value;
@@ -339,7 +335,7 @@
 
             if (!staff || !jobName) {
                 statusDiv.style.color = "red";
-                statusDiv.textContent = "กรอกชื่อคนทำกับชื่องานก่อนนะจ๊ะ!";
+                statusDiv.textContent = "กรอกชื่อคนทำกับชื่องานก่อนน";
                 return;
             }
 
@@ -352,7 +348,7 @@
 
                 if (!itemName || !qty) {
                     statusDiv.style.color = "red";
-                    statusDiv.textContent = "เลือกของและใส่จำนวนให้ครบทุกช่องด้วยน้า!";
+                    statusDiv.textContent = "เลือกของและใส่จำนวนให้ครบทุกช่องด้วยนะคับ";
                     return;
                 }
 
@@ -363,12 +359,12 @@
             }
 
             statusDiv.style.color = "blue";
-            statusDiv.textContent = "กำลังบันทึกข้อมูลรัวๆ...";
+            statusDiv.textContent = "กำลังบันทึกข้อมูลอิอิ...";
 
             const payload = {
                 action: action,
                 staff: staff + ' (งาน: ' + jobName + ')',
-                items: items
+                items: items // ส่งไปเป็นอาเรย์หลายรายการ
             };
 
             try {
@@ -380,9 +376,10 @@
                 });
 
                 statusDiv.style.color = "green";
-                statusDiv.textContent = "บันทึกสำเร็จเรียบร้อยแล้วค้าบบ!";
+                statusDiv.textContent = "เรียบร้อยแล้วค้าบบ!";
                 
                 document.getElementById('jobName').value = '';
+                // รีเซ็ตเหลือแถวเดียว
                 document.getElementById('itemListContainer').innerHTML = '';
                 addItemRow();
                 
@@ -394,6 +391,7 @@
             }
         }
 
+        // โหลดรายการแรกและโหลดสต็อกทันทีเมื่อเปิดเว็บ
         window.onload = function() {
             addItemRow();
             loadInventory();
