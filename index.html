@@ -160,8 +160,9 @@
             box-shadow: 1px 1px 0px #000000;
         }
 
-        .btn-in-action { background-color: var(--btn-in); color: #000; }
-        .btn-out-action { background-color: var(--btn-out); color: #fff; }
+        /* ปรับปุ่มซื้อมาใหม่ๆๆ ให้ตัวหนังสือเป็นสีดำชัดเจน */
+        .btn-in-action { background-color: var(--btn-in); color: #000000; }
+        .btn-out-action { background-color: var(--btn-out); color: #ffffff; }
 
         #status-message {
             margin-top: 15px;
@@ -211,7 +212,6 @@
             background-color: #ffeb3b;
         }
 
-        /* ปิดไฮไลท์สีฟ้าเวลากดแตะบน iPhone (iOS) */
         * {
             -webkit-tap-highlight-color: transparent;
         }
@@ -238,7 +238,6 @@
             <div class="form-group">
                 <label>เลือกรายการของ:</label>
                 <div class="multi-item-container" id="itemListContainer"></div>
-                <!-- ปุ่มเพิ่มรายการ ปรับให้มีขอบและเงาพิกเซลเข้ากัน -->
                 <button type="button" class="pixel-btn" style="width: 100%; background: #fff; color: #000; font-size: 14px; padding: 12px; box-shadow: var(--shadow-sm);" onclick="addItemRow()">➕ เพิ่มรายการของอีก</button>
             </div>
 
@@ -254,8 +253,7 @@
     <div class="inventory-box">
         <div class="inventory-header">
             <h3>ของที่เหลือในสต้อกงับ</h3>
-            <!-- ปุ่มรีเฟรช ตัวหนังสือสีดำ คมชัด -->
-            <button class="pixel-btn" style="font-size: 11px; padding: 6px 12px; background: #00e676; color: #000; box-shadow: var(--shadow-sm);" onclick="loadInventory()">🔄 รีเฟรช</button>
+            <button class="pixel-btn" style="font-size: 11px; padding: 6px 12px; background: #00e676; color: #000000; box-shadow: var(--shadow-sm);" onclick="loadInventory()">🔄 รีเฟรช</button>
         </div>
         <table>
             <thead>
@@ -290,7 +288,6 @@
                 optionsHtml += `<option value="${item}">${item}</option>`;
             });
 
-            // สร้างตัวเลือกจำนวน 1 ถึง 100 (สามารถเลื่อนเลือก หรือจิ้มพิมพ์ตัวเลขลงไปได้)
             let qtyOptionsHtml = ``;
             for (let i = 1; i <= 100; i++) {
                 qtyOptionsHtml += `<option value="${i}">${i}</option>`;
